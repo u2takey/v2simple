@@ -4,3 +4,4 @@ bin/*
 !bin/.keep
 server.crt
 server.key
+main

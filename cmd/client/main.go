@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/jarvisgally/v2simple/common"
-	"github.com/jarvisgally/v2simple/proxy/direct"
 	"io"
 	"io/ioutil"
 	"log"
@@ -17,9 +15,14 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/jarvisgally/v2simple/common"
+	"github.com/jarvisgally/v2simple/proxy/direct"
+
 	_ "github.com/jarvisgally/v2simple/common"
 	"github.com/jarvisgally/v2simple/proxy"
 	_ "github.com/jarvisgally/v2simple/proxy/direct"
+	_ "github.com/jarvisgally/v2simple/proxy/faas"
+	_ "github.com/jarvisgally/v2simple/proxy/http"
 	_ "github.com/jarvisgally/v2simple/proxy/socks5"
 	_ "github.com/jarvisgally/v2simple/proxy/tls"
 	_ "github.com/jarvisgally/v2simple/proxy/vmess"
@@ -159,12 +162,17 @@ func main() {
 				if _, ok := client.(*direct.Direct); ok { // 直接访问则直接连接目标地址
 					dialAddr = targetAddr.String()
 				}
-				rc, err := net.Dial("tcp", dialAddr)
-				if err != nil {
-					log.Printf("failed to dail to %v: %v", dialAddr, err)
-					return
+				var rc net.Conn
+				if (strings.HasPrefix(conf.Remote, "faas") || strings.HasPrefix(conf.Remote, "http")) && client == remoteClient {
+
+				} else {
+					rc, err = net.Dial("tcp", dialAddr)
+					if err != nil {
+						log.Printf("failed to dail to %v: %v", dialAddr, err)
+						return
+					}
+					defer rc.Close()
 				}
-				defer rc.Close()
 
 				// 不同的客户端协议各自实现自己的请求逻辑
 				wrc, err := client.Handshake(rc, targetAddr.String())

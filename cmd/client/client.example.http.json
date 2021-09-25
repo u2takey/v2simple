@@ -1,0 +1,5 @@
+{
+  "local": "socks5://127.0.0.1:1081",
+  "route": "blacklist",
+  "remote": "http://150.109.194.142:8081"
+}

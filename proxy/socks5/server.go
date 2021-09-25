@@ -3,12 +3,12 @@ package socks5
 import (
 	"errors"
 	"fmt"
-	"github.com/jarvisgally/v2simple/common"
 	"io"
 	"net"
 	"net/url"
 	"time"
 
+	"github.com/jarvisgally/v2simple/common"
 	"github.com/jarvisgally/v2simple/proxy"
 )
 

@@ -7,7 +7,6 @@ import (
 	"crypto/md5"
 	"encoding/binary"
 	"errors"
-	"github.com/jarvisgally/v2simple/common"
 	"hash/fnv"
 	"io"
 	"log"
@@ -17,6 +16,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/jarvisgally/v2simple/common"
 
 	"github.com/jarvisgally/v2simple/proxy"
 	"golang.org/x/crypto/chacha20poly1305"
